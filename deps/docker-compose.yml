@@ -1,0 +1,83 @@
+version: '3.8'
+
+networks:
+  example_project-network:
+    name: example_project-network
+    driver: bridge
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: example_project-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=deku-mq
+      - RABBITMQ_DEFAULT_PASS=deku-mq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - example_project-rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - example_project-network
+    labels:
+      - "portainer.description=RabbitMQ message broker for example_project"
+
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
+    container_name: example_project-postgresql
+    command: postgres -c 'max_connections=1000'
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MAX_WAL_SIZE=3GB
+    ports:
+      - 5432:5432
+    volumes:
+      - example_project-postgresql-data:/var/lib/postgresql/data
+      - ./postgresql/init/:/docker-entrypoint-initdb.d/
+    shm_size: '2gb'
+    networks:
+      - example_project-network
+    labels:
+      - "portainer.description=PostgreSQL database with PostGIS for example_project"
+
+  redis:
+    image: redis:latest
+    container_name: example_project-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - example_project-redis-data:/data
+    networks:
+      - example_project-network
+    labels:
+      - "portainer.description=Redis cache for example_project"
+
+  s3-local:
+    image: localstack/localstack:latest
+    container_name: example_project-s3
+    ports:
+      - 4566:4566
+      - 4579:4579
+    environment:
+      - SERVICES=s3
+    volumes:
+      - ./aws/s3:/etc/localstack/init/ready.d
+    networks:
+      - example_project-network
+    labels:
+      - "portainer.description=LocalStack S3 for example_project development"
+
+volumes:
+  example_project-postgresql-data:
+    name: example_project-postgresql-data
+    driver: local
+  example_project-redis-data:
+    name: example_project-redis-data
+    driver: local
+  example_project-rabbitmq-data:
+    name: example_project-rabbitmq-data
+    driver: local
+  example_project-localstack-data:
+    name: example_project-localstack-data
+    driver: local

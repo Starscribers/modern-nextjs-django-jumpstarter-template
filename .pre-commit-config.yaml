@@ -1,0 +1,65 @@
+# Pre-commit configuration for example_project
+# Runs the same static analysis checks as CI pipeline
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # Python backend checks (matching CI pipeline)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.13
+    hooks:
+      # Ruff format check (matching CI)
+      - id: ruff-format
+        name: ruff-format (backend)
+        files: '^backend/.*\.py$'
+
+      # Ruff linting (matching CI)
+      - id: ruff
+        name: ruff-lint (backend)
+        files: '^backend/.*\.py$'
+        args: ['--fix']
+
+  # MyPy type checking (matching CI)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.16.1
+    hooks:
+      - id: mypy
+        name: mypy (backend)
+        files: '^backend/.*\.py$'
+        args: ['--config-file=backend/src/pyproject.toml']
+        additional_dependencies:
+          - django-stubs
+          - djangorestframework-stubs
+          - types-python-dateutil
+
+  # Terraform checks (matching CI pipeline)
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.92.3
+    hooks:
+      - id: terraform_fmt
+        name: terraform-format
+        files: '^deployment/.*\.tf$'
+
+# Configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

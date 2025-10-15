@@ -1,0 +1,269 @@
+Notion Calendar inspired styles for react-big-calendar
+.rbc-calendar {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #37352f;
+}
+
+/* Header styling - weekday labels */
+.rbc-header {
+  padding: 12px 8px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #6b7280;
+  background-color: transparent;
+  border-bottom: 1px solid #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* Main calendar container */
+.rbc-month-view, .rbc-time-view {
+  border: none;
+  border-radius: 12px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Date cells */
+.rbc-date-cell {
+  text-align: left;
+  border-right: 1px solid #f3f4f6;
+  border-top: 1px solid #f3f4f6;
+  transition: background-color 0.15s ease;
+  position: relative;
+}
+
+.rbc-date-cell:hover {
+  background-color: #f9fafb;
+}
+
+/* Date numbers */
+.rbc-date-cell .rbc-button-link {
+  font-weight: 500;
+  color: #111827;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+}
+
+.rbc-date-cell .rbc-button-link:hover {
+  background-color: #f3f4f6;
+}
+
+/* Off-range dates (previous/next month) */
+.rbc-date-cell.rbc-off-range {
+  color: #9ca3af;
+  background-color: #fafafa;
+}
+
+.rbc-date-cell.rbc-off-range .rbc-button-link {
+  color: #d1d5db;
+}
+
+/* Today highlighting */
+.rbc-today {
+  background-color: #fef3c7;
+}
+
+.rbc-today .rbc-button-link {
+  background-color: #f59e0b;
+  color: white;
+  font-weight: 600;
+}
+
+/* Events - Notion Calendar style with dynamic colors */
+.rbc-event {
+  background-color: transparent; /* Will be set by JS */
+  border: none;
+  border-left: 3px solid transparent; /* Will be set by JS */
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #374151;
+  margin: 1px 0;
+  box-shadow: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+/* Week/Day view time slots */
+.rbc-time-slot {
+  border-top: 1px solid #f3f4f6;
+  min-height: 20px;
+}
+
+.rbc-time-gutter {
+  background-color: #fafafa;
+  border-right: 1px solid #e5e7eb;
+  width: 60px;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.rbc-time-header-gutter {
+  background-color: #fafafa;
+}
+
+/* Time labels */
+.rbc-time-slot .rbc-label {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  padding-right: 8px;
+  text-align: right;
+}
+
+/* Current time indicator */
+.rbc-current-time-indicator {
+  background-color: #ef4444;
+  height: 2px;
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3);
+}
+
+/* Day view events - consistent with month view style */
+.rbc-day-slot .rbc-event {
+  border-left: 3px solid #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #374151;
+}
+
+/* Agenda view */
+.rbc-agenda-view {
+  border: none;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.rbc-agenda-view table {
+  border: none;
+}
+
+.rbc-agenda-view .rbc-agenda-content {
+  padding: 16px;
+}
+
+.rbc-agenda-view .rbc-agenda-table {
+  border-spacing: 0;
+}
+
+.rbc-agenda-view .rbc-agenda-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rbc-agenda-view .rbc-agenda-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Week view header */
+.rbc-time-header {
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #fafafa;
+}
+
+.rbc-time-header .rbc-header {
+  padding: 16px 8px;
+  font-weight: 600;
+  color: #374151;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* All day row */
+.rbc-allday-cell {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Remove default borders */
+.rbc-month-row, .rbc-month-row + .rbc-month-row {
+  border: none;
+}
+
+.rbc-day-bg, .rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid #f3f4f6;
+}
+
+/* Drag and drop styles - neutral colors for dragging */
+.rbc-addons-dnd .rbc-addons-dnd-drag-preview {
+  background-color: rgba(107, 114, 128, 0.1);
+  border: none;
+  border-left: 3px solid #6b7280;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #374151;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+  transform: rotate(2deg);
+  opacity: 0.9;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-over {
+  background-color: #dbeafe;
+  border: 1px dashed #3b82f6;
+  border-radius: 6px;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-drag-row {
+  border: 1px dashed #3b82f6;
+  background-color: #dbeafe;
+  border-radius: 4px;
+}
+
+/* Smooth transitions */
+.rbc-event, .rbc-date-cell, .rbc-day-bg {
+  transition: all 0.15s ease;
+}
+
+/* Enhanced month view - smaller, cleaner events */
+.rbc-month-view .rbc-event {
+  font-size: 10px;
+  padding: 1px 4px;
+  margin: 1px 0;
+  background-color: rgba(59, 130, 246, 0.08);
+  border-left: 2px solid #3b82f6;
+  font-weight: 400;
+}
+
+/* Week/Day view - slightly larger but still minimal */
+.rbc-time-view .rbc-event {
+  font-size: 11px;
+  padding: 2px 6px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid #3b82f6;
+}
+
+/* Better typography */
+.rbc-time-view .rbc-label {
+  font-feature-settings: 'tnum';
+}
+
+/* Agenda view improvements */
+.rbc-agenda-view .rbc-agenda-date-cell {
+  font-weight: 600;
+  color: #374151;
+  background-color: #f9fafb;
+  padding: 12px 16px;
+}
+
+.rbc-agenda-view .rbc-agenda-event-cell {
+  padding: 12px 16px;
+  color: #374151;
+}
+
+.rbc-agenda-view .rbc-agenda-time-cell {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 16px;
+}
