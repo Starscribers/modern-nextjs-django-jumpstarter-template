@@ -10,11 +10,8 @@ class SystemSettings(BaseSettings):
     S3_ENDPOINT_URL: str | None = None
     SEGMENTATION_BACKEND: str = "segmentation.backends.pg.PGSegmentationBackend"
     BATCH_SIZE: int = 1000
-    JOURNEY_EXECUTION_TIMEOUT: int = 3600 * 4
 
     DOWNLOAD_FILE_EXPIRE_SECONDS: int = 60
-
-    MEMBER_PARTITION_COUNT: int = 20
 
     # Maximum upload file size (byte)
     MAX_FILE_SIZE_BYTES: int = 1_000_000_000
@@ -35,9 +32,6 @@ class SystemSettings(BaseSettings):
     ENVIRONMENT: str = "local"
     HOST_URL: str = "http://localhost:8000"
     FRONTEND_URL: str = "http://localhost:3000"
-    ENABLE_REVIEW: bool = True
-
-    TRK_URL: str = "http://localhost:8080"
 
     # CELERY
     CELERY_BROKER_URL: str = ""

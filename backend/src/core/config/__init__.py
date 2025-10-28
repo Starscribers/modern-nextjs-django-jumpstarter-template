@@ -4,12 +4,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from core.config.cache import CacheSettings
 from core.config.database import DatabaseSettings
-from core.config.filtration import FiltrationSettings
 from core.config.frontend import FrontendRedirectSettings
 from core.config.messaging import MessagingSettings
 from core.config.notification import NotificationSettings
 from core.config.sftp import SftpSettings
-from core.config.short_url import ShortUrlSettings
 from core.config.storage import StorageSettings
 from core.config.system import SystemSettings
 
@@ -43,8 +41,6 @@ class Settings(
     SftpSettings,
     SentrySettings,
     StorageSettings,
-    ShortUrlSettings,
-    FiltrationSettings,
     CacheSettings,
     MessagingSettings,
 ):

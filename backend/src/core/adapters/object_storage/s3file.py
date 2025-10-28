@@ -4,12 +4,11 @@ import json
 from typing import TYPE_CHECKING, Any, Self
 
 import boto3
-import botocore
 
 from core.config import settings
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Generator
 
     from botocore.httpchecksum import StreamingChecksumBody
 
@@ -122,58 +121,3 @@ class S3File:
         Developer using only
         """
         self.s3.delete_object(Bucket=self.bucket_name, Key=key)
-
-
-class FirstTimeTaggingMembers(S3File):
-    def __init__(
-        self: Self,
-        partition: int,
-        tag_uuid: str,
-        time_key: str,
-    ) -> None:
-        super().__init__(settings.FILESTORE_BUCKET_NAME)
-        self.partition = partition
-        self.file_key = f"tagging/{tag_uuid}/{time_key}/{self.partition:04d}.json"
-        self.path_key = f"tagging/{tag_uuid}/{time_key}/"
-
-    def insert_file(self: Self, data: list[Any]) -> None:
-        self.s3.put_object(
-            Bucket=self.bucket_name,
-            Key=self.file_key,
-            Body=json.dumps(data),
-            ContentType="application/json",
-        )
-
-    def get_file(self: Self, file_key: str | None = None) -> list[Any]:
-        try:
-            response = self.s3.get_object(
-                Bucket=self.bucket_name,
-                Key=file_key if file_key else self.file_key,
-            )
-            file_content = response["Body"].read().decode("utf-8")
-            data = json.loads(file_content)
-        except botocore.exceptions.ClientError:
-            data = []
-
-        return data
-
-    def iterate_all_members(self: Self) -> Iterator[list[Any]]:
-        for file in self.list_objects(self.path_key, filter_csv=False):
-            if file.endswith(".json"):
-                yield self.get_file(file)
-
-    def delete_all_files(self: Self) -> bool:
-        file_list = self.list_objects(self.path_key, filter_csv=False)
-        if not file_list:
-            return True
-
-        delete_payload = {
-            "Objects": [{"Key": file} for file in file_list],
-            "Quiet": False,
-        }
-        response = self.s3.delete_objects(
-            Bucket=self.bucket_name,
-            Delete=delete_payload,
-        )
-
-        return len(response["Deleted"]) == len(file_list)

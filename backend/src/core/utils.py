@@ -1,18 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
-from typing import TYPE_CHECKING, Self
-
-from django.core import serializers
-
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-
 import contextlib
 import csv
 import datetime
-import hashlib
 import logging
 import os
 import shutil
@@ -22,11 +12,13 @@ import time
 from contextlib import contextmanager
 from functools import wraps
 from itertools import zip_longest
+from pathlib import Path
 from re import sub
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
 import boto3
 import psutil
+from django.core import serializers
 from django.db import transaction
 from django.db.utils import IntegrityError
 from django.utils import timezone
@@ -69,21 +61,6 @@ def make_key_snake_case_recursive(item: dict | list | object) -> dict | list:
         return [make_key_snake_case_recursive(i) for i in item]
 
     return item
-
-
-def iterate_member_partitions() -> range:
-    return range(settings.MEMBER_PARTITION_COUNT)
-
-
-def iterate_journey_partition_keys() -> range:
-    return range(settings.MEMBER_PARTITION_COUNT // settings.JOURNEY_PARTITION_COUNT)
-
-
-def get_partition_ids_from_partition_key(partition_key: int) -> list[int]:
-    return [
-        partition_key * settings.SK_PARTITION_COUNT + i
-        for i in range(settings.SK_PARTITION_COUNT)
-    ]
 
 
 @contextmanager
@@ -159,27 +136,6 @@ def compress_files(
         Path(file_to_compress).unlink()
 
     return Path(zip_file_name).stat().st_size
-
-
-def get_partition(gid: str) -> int:
-    sha256_hash = hashlib.sha256(gid.encode()).hexdigest()
-    return int(sha256_hash, 16) % settings.MEMBER_PARTITION_COUNT
-
-
-def get_partition_key(gid: str) -> int:
-    return get_partition(gid) // 10
-
-
-def get_journey_partition_key(gid: str) -> int:
-    return get_partition(gid) // settings.JOURNEY_PARTITION_COUNT
-
-
-def get_table_partition(gid: str, table_count: int) -> int:
-    return get_partition_key(gid) % table_count
-
-
-def get_sk_partition(gid: str) -> int:
-    return get_partition(gid) % 10
 
 
 def get_current_date_dict() -> dict[str, int]:
