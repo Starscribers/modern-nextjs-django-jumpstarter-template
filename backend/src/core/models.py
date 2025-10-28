@@ -690,3 +690,13 @@ class FixtureRevision(models.Model):
 
     def __str__(self: Self) -> str:
         return f"{self.fixture_slug} - v{self.revision}"
+
+class CeleryTask(BaseModel):
+    task_id = models.UUIDField(
+        verbose_name='task id',
+        help_text='task id',
+        unique=True,
+    )
+
+    def __str__(self: Self) -> str:
+        return str(self.task_id)

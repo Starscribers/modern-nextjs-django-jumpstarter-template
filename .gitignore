@@ -233,11 +233,10 @@ deployment/tfplan
 *.ipr
 
 # Visual Studio Code
-.vscode/
+.vscode/*.json
 !.vscode/settings.json.example
 !.vscode/extensions.json
 !.vscode/launch.json
-!.vscode/tasks.json
 
 # Sublime Text
 *.sublime-project

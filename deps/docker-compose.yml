@@ -33,7 +33,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - example_project-postgresql-data:/var/lib/postgresql/data
+      - example_project-postgresql-data:/var/lib/postgresql
       - ./postgresql/init/:/docker-entrypoint-initdb.d/
     shm_size: '2gb'
     networks:
